@@ -39,7 +39,7 @@ python train.py
 
 Training parameters such as learning rate, batch size, and number of epochs may be adjusted accordingly. 
 
-### Example of a Loss Curve
+### Example Loss Curve
 <img width="445" alt="Screenshot 2024-12-18 at 12 46 42 AM" src="https://github.com/user-attachments/assets/558d2bdf-7dfd-4478-a6e9-c848b78415df" />
 
 The model checkpoints are saved as clip.pt.
