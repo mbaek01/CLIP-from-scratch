@@ -31,7 +31,7 @@ pip install torch transformers datasets tqdm numpy
 Ensure you have the CIFAR-10 dataset or download it via Hugging Face's datasets library.
 
 Run the train.py script:
-```python
+```bash
 python train.py
 ```
 
@@ -44,7 +44,7 @@ The model checkpoints are saved as clip.pt.
 Ensure the clip.pt checkpoint is available (created during training).
 
 Run the test.py script:
-```python
+```bash
 python test.py
 ```
 The script computes accuracy on the test dataset and outputs it to the console.
