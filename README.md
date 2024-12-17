@@ -28,6 +28,8 @@ pip install torch transformers datasets tqdm numpy
 ## How to Use
 ### Training
 
+Note: This implementation uses Apple's MPS for GPU acceleration. If you're using a different platform or GPU, make sure to adjust the device settings accordingly (e.g., replace "mps" with "cuda").
+
 Ensure you have the CIFAR-10 dataset or download it via Hugging Face's datasets library.
 
 Run the train.py script:
