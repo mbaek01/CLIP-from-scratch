@@ -54,8 +54,8 @@ class ImageEncoder(nn.Module):
 class InfoNCELoss(nn.Module):
     def __init__(self):
         super().__init__()
-        self.temperature = nn.Parameter(torch.ones([])*np.log(1/7)).to(self.device)
         self.device = "mps" if torch.backends.mps.is_available() else "cpu"
+        self.temperature = nn.Parameter(torch.ones([])*np.log(1/7)).to(self.device)
 
     def forward(self, feature_img, feature_txt):
         logits = feature_img@feature_txt.T * torch.exp(self.temperature)
