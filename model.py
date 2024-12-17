@@ -51,19 +51,13 @@ class ImageEncoder(nn.Module):
 
         return self.layer_norm(projected_embedding)
 
-class CLIP(nn.Module):
+class InfoNCELoss(nn.Module):
     def __init__(self):
         super().__init__()
-        self.device = "mps" if torch.backends.mps.is_available() else "cpu"
-        self.image_encoder = ImageEncoder(proj_dim=512)
-        self.text_encoder = TextEncoder(proj_dim=512)
         self.temperature = nn.Parameter(torch.ones([])*np.log(1/7)).to(self.device)
-    
-    def forward(self, img, cap, mask):
-        # feature representations of image and text
-        feature_img = self.image_encoder(img)
-        feature_txt = self.text_encoder(cap, mask)
+        self.device = "mps" if torch.backends.mps.is_available() else "cpu"
 
+    def forward(self, feature_img, feature_txt):
         logits = feature_img@feature_txt.T * torch.exp(self.temperature)
 
         labels = torch.arange(feature_img.size(0)).to(self.device)
@@ -72,6 +66,20 @@ class CLIP(nn.Module):
         loss_txt = F.cross_entropy(logits, labels)
 
         loss = (loss_img + loss_txt)/2.0 
+
+        return loss
+        
+class CLIP(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.image_encoder = ImageEncoder(proj_dim=512)
+        self.text_encoder = TextEncoder(proj_dim=512)
+        self.loss_fn = InfoNCELoss()
+
+    def forward(self, img, cap, mask):
+        feature_img = self.image_encoder(img)
+        feature_txt = self.text_encoder(cap, mask)
+        loss = self.loss_fn(feature_img, feature_txt)
 
         return loss
 
